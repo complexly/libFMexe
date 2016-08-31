@@ -216,7 +216,7 @@ libFM.dgCMatrix <- function(train, test, y_train, y_test,
 libFM.default <- function(train, test, global_bias = TRUE, variable_bias = TRUE, dim = 8,
                 task = c("c", "r"), method = c("mcmc", "sgd", "als", "sgda"),
                 init_stdev = 0.1, regular = c(0, 0, 0), learn_rate = 0.1, validation,
-                verbosity = 0, iter = 100, exe_loc, grouping, seed = NULL, ...) {
+                verbosity = 0, iter = 100, exe_loc, grouping, savemodel, seed = NULL, ...) {
   method = match.arg(method)
   task = match.arg(task)
   if (missing(exe_loc)) {
@@ -298,7 +298,10 @@ libFM.default <- function(train, test, global_bias = TRUE, variable_bias = TRUE,
     command = paste0(command,
                      " -meta ", groupingloc)
   }
-
+  if (!missing(savemodel)) {
+    command = paste0(command,
+                     " -save_model ", savemodel)
+  }
   if (!is.null(seed)) {
     command = paste0(command,
                      " -seed ", seed)
